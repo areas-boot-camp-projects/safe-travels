@@ -1,23 +1,27 @@
 [
   {
+    "user_id": 1,
     "first_name": "Christian",
     "last_name": "Areas",
     "email": "me@areas.me",
     "password": "password"
   },
   {
+    "user_id": 2,
     "first_name": "Eliu",
     "last_name": "Rosario",
     "email": "eliu@email.com",
     "password": "password"
   },
   {
+    "user_id": 3,
     "first_name": "Mariama",
     "last_name": "Bah",
     "email": "mariama@email.com",
     "password": "password"
   },
   {
+    "user_id": 4,
     "first_name": "Mark",
     "last_name": "Pedro",
     "email": "mark@email.com",
