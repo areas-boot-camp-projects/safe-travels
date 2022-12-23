@@ -1,0 +1,26 @@
+[
+  {
+    "first_name": "Christian",
+    "last_name": "Areas",
+    "email": "me@areas.me",
+    "password": "password"
+  },
+  {
+    "first_name": "Eliu",
+    "last_name": "Rosario",
+    "email": "eliu@email.com",
+    "password": "password"
+  },
+  {
+    "first_name": "Mariama",
+    "last_name": "Bah",
+    "email": "mariama@email.com",
+    "password": "password"
+  },
+  {
+    "first_name": "Mark",
+    "last_name": "Pedro",
+    "email": "mark@email.com",
+    "password": "password"
+  }
+]

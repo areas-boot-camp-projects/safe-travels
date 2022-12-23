@@ -2,7 +2,7 @@
 const Sequelize = require("sequelize")
 require("dotenv").config()
 
-// Create a sequelize instance.
+// Create a sequelize instance with the database connection details.
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -13,7 +13,7 @@ const sequelize = new Sequelize(
   },
 )
 
-// Test the connection.
+// Test the database connection.
 sequelize
   .authenticate()
   .then(() => {
