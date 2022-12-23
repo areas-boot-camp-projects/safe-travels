@@ -1,4 +1,4 @@
-// Import database connection deets.
+// Import database connection details.
 const sequelize = require("../config/connection")
 
 // Import models.
