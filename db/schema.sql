@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS SafeTravels;
+CREATE DATABASE SafeTravels;
