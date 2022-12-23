@@ -17,11 +17,10 @@ const sequelize = new Sequelize(
 sequelize
   .authenticate()
   .then(() => {
-    console.log(`Connected successfully to ${process.env.DB_NAME}!`);
+    console.log(`Connected successfully to the ${process.env.DB_NAME} database!`);
   })
   .catch(err => {
-    console.error(`Unable to connect to ${process.env.DB_NAME}:`, err);
+    console.error(`Unable to connect to the ${process.env.DB_NAME} database:`, err);
   })
 
-// Export the sequelize instance.
 module.exports = sequelize
