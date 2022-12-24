@@ -5,7 +5,7 @@ const router = require("express").Router()
 router.get("/", async (req, res) => {
   try {
     console.log("GET / request!")
-    res.status(200).send("OK")
+    res.status(200).json("Under Construction 🔨")
   } catch (err) {
     res.status(500).json(err)
   }
