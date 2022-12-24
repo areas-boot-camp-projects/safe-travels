@@ -10,6 +10,12 @@ class UserFavorite extends Model {}
 // Define the UserFavorite class.
 UserFavorite.init(
   {
+    user_favorite_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
