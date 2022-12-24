@@ -22,7 +22,6 @@ async function seedDatabase() {
     individualHooks: true,
     returning: true,
   })
-  
   process.exit(0)
 }
 
