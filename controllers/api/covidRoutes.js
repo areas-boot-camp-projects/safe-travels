@@ -4,11 +4,11 @@ const router = require("express").Router()
 // Import axios.
 const axios = require("axios")
 
-// Define the GET /covid API route.
+// GET /api/covid/ - 
 router.get("/", async (req, res) => {
   try {
-    console.log("GET /api/covid request!")
-    res.status(200).send("OK")
+    const result = await axios.get("https://api.covid19api.com/")
+    res.status(200).json(result.data)
   } catch (err) {
     res.status(500).json(err)
   }
