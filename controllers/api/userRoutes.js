@@ -1,6 +1,9 @@
 // Import the Express router.
 const router = require("express").Router()
 
+// Import Sequelize operators.
+const { Op } = require("sequelize")
+
 // Import the User model.
 const { User, UserFavorite } = require("../../models")
 
@@ -88,8 +91,13 @@ router.post("/:id/favorites", async (req, res) => {
 // DELELTE /api/users/:id/favorites (delete a user’s favorites)
 router.delete("/:id/favorites", async (req, res) => {
   try {
-    console.log("DELETE /api/users/:id/favorites!")
-    res.status(200).json("DELETE /api/users/:id/favorites!")
+    const userFavorites = await UserFavorite.destroy({
+      where: {
+        "user_id": req.params.id,
+        "favorite": { [Op.in]: req.body },
+      },
+    })
+    res.status(200).json(userFavorites)
   } catch (err) {
     res.status(500).json(err)
   }
