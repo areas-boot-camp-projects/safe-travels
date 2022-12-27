@@ -2,9 +2,9 @@
 const router = require("express").Router()
 
 // Import the User model.
-const { User } = require("../../models")
+const { User, UserFavorite } = require("../../models")
 
-// Define the GET /api/users route (get all users).
+// GET /api/users route (get all users).
 router.get("/", async (req, res) => {
   try {
     const users = await User.findAll({
@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
   }
 })
 
-// Define the GET /api/users/:id route (get one user).
+// GET /api/users/:id route (get a user).
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findOne({
@@ -41,7 +41,7 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-// POST /api/users (create one user).
+// POST /api/users (add a user).
 router.post("/", async (req, res) => {
   try {
     const user = await User.create(req.body)
@@ -51,17 +51,48 @@ router.post("/", async (req, res) => {
   }
 })
 
-// GET /api/users/favorites/:id
-router.get("/favorites/:id", async (req, res) => {
+// GET /api/users/:id/favorites (get a user’s favorites)
+router.get("/:id/favorites", async (req, res) => {
   try {
-    console.log("GET /api/users/favorites/:id!")
-    res.status(200).json("GET /api/users/favorites/:id!")
+    const userFavorites = await UserFavorite.findAll({
+      attributes: [
+        "favorite",
+      ],
+      where: {
+        "user_id": req.params.id,
+      },
+    })
+    res.status(200).json(userFavorites)
   } catch (err) {
     res.status(500).json(err)
   }
 })
 
-// POST /api/users/favorites/:id
+// POST /api/users/:id/favorites (add a user’s favorites)
+router.post("/:id/favorites", async (req, res) => {
+  try {
+    const favorites = []
+    req.body.forEach((favorite) => {
+      favorites.push({
+        user_id: req.params.id,
+        favorite: favorite,
+      })
+    })
+    const userFavorites = await UserFavorite.bulkCreate(favorites)
+    res.status(200).json(userFavorites)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
 
+// DELELTE /api/users/:id/favorites (delete a user’s favorites)
+router.delete("/:id/favorites", async (req, res) => {
+  try {
+    console.log("DELETE /api/users/:id/favorites!")
+    res.status(200).json("DELETE /api/users/:id/favorites!")
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
 
 module.exports = router
