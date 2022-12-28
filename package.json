@@ -1,0 +1,23 @@
+{
+  "name": "safe-travels",
+  "version": "1.0.0",
+  "description": "A simple app that communicates that risk level of traveling to a state or city/county.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/areas-boot-camp-projects/safe-travels.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/areas-boot-camp-projects/safe-travels/issues"
+  },
+  "homepage": "https://github.com/areas-boot-camp-projects/safe-travels#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.2.4"
+  }
+}
