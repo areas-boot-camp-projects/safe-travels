@@ -8,6 +8,8 @@ const { Op } = require("sequelize")
 const { User, UserFavorite } = require("../../models")
 
 // GET /api/users route (get all users).
+// todo: investigate if it would be good to create docs using swagger-jsdoc (code-first approach).
+// todo: investigate if it would be good to create docs using swagger-codegen or openapi-generator (design-first approach)
 router.get("/", async (req, res) => {
   try {
     const users = await User.findAll({
@@ -20,7 +22,12 @@ router.get("/", async (req, res) => {
     })
     res.status(200).json(users)
   } catch (err) {
-    res.status(500).json(err)
+    // todo: use if statements to catch different kinds of errors.
+    if (1) {
+      res.status(500).json(err)
+    } else {
+      res.status(500).json(err)
+    }
   }
 })
 
