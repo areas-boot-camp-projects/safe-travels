@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tailwind": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
-    "node": "nodemon server.js"
+    "nodemon": "nodemon server.js"
   },
   "repository": {
     "type": "git",
