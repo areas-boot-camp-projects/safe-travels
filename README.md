@@ -1,6 +1,6 @@
 # Safe Travels
 ## Description
-A simple app that communicates that risk level of traveling to a state or city/county.
+A simple app that communicates the risk level of traveling to a state or city/county.
 
 <!-- if appropriate, add a screenshot ![image-alt](image-url) -->
 
