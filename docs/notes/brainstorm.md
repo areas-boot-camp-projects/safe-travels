@@ -65,15 +65,16 @@ Brianstorm:
 - Use third-party APIs to get data (infections, hospitalizations, and deaths).
 - DB will house user information, risk levels and definitions, and maybe favorites and a dashboard.
 - Users must sign up to use app.
+- Could have a map. Maybe use Google Maps!
+- Could use email notifications.
 
 ## Tech Stack:
-- Tailwind CSS
-- Handlebars.js
-- Node.js
-- Express.js
-- MySQL
-- JWT (maybe)
-- Stripe for donations 😈 (*extra credit*)
+- Tailwind CSS.
+- Handlebars.js.
+- Node.js and Express.js.
+- MySQL.
+- JWT authentication (maybe).
+- Stripe for donations 😈 (*extra credit*).
 
 ## Team Interest:
 - Front End:

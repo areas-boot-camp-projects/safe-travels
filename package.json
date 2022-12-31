@@ -4,8 +4,8 @@
   "description": "A simple app that communicates that risk level of traveling to a state or city/county.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+    "tailwind": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "nodemon": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,15 @@
     "url": "https://github.com/areas-boot-camp-projects/safe-travels/issues"
   },
   "homepage": "https://github.com/areas-boot-camp-projects/safe-travels#readme",
+  "dependencies": {
+    "axios": "^1.2.1",
+    "express": "^4.18.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.28.0"
+  },
   "devDependencies": {
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20",
     "tailwindcss": "^3.2.4"
   }
 }
