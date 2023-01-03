@@ -1,12 +1,46 @@
-// Import the Express router.
+// Import the Express router and Sequelize operators.
 const router = require("express").Router()
+const { Op } = require("sequelize")
 
-const { default: test } = require("node:test")
-// Import Sequelize operators.
-const { Op, Sequelize } = require("sequelize")
-
-// Import the User and UserFavorite model.
+// Import the User and UserFavorite models.
 const { User, UserFavorite } = require("../../models")
+
+// Get a user’s details and return them as an object.
+async function getUser(userId) {
+  try {
+    const user = await User.findOne({
+      attributes: [
+        "user_id",
+        "first_name",
+        "last_name",
+        "email",
+      ],
+      where: {
+        "user_id": userId,
+      },
+    })
+    return user
+  } catch (err) {
+    throw err
+  }
+}
+
+// Get a user’s favorites and return them as an array.
+async function getAllUserFavorites(userId) {
+  try {
+    const allUserFavorites = await UserFavorite.findAll({
+      attributes: [
+        "favorite",
+      ],
+      where: {
+        "user_id": userId,
+      },
+    })
+    return allUserFavorites.map(favorite => favorite.favorite)
+  } catch (err) {
+    throw err
+  }
+}
 
 // Declare the GET /api/users route (get all users).
 router.get("/", async (req, res) => {
@@ -28,17 +62,8 @@ router.get("/", async (req, res) => {
 // Declare GET /api/users/:id route (get a user).
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findOne({
-      attributes: [
-        "user_id",
-        "first_name",
-        "last_name",
-        "email",
-      ],
-      where: {
-        "user_id": req.params.id,
-      },
-    })
+    // Return the user’s details.
+    const user = await getUser(req.params.id)
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
@@ -48,7 +73,10 @@ router.get("/:id", async (req, res) => {
 // Declare POST /api/users (add a user).
 router.post("/", async (req, res) => {
   try {
-    const user = await User.create(req.body)
+    // Add a user.
+    const newUser = await User.create(req.body)
+    // Return the user’s details.
+    const user = await getUser(newUser.user_id)
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
@@ -58,17 +86,9 @@ router.post("/", async (req, res) => {
 // Declare GET /api/users/:id/favorites (get a user’s favorites)
 router.get("/:id/favorites", async (req, res) => {
   try {
-    // ** if possible, move this outside the route and make it available to all the favorites routes.
-    const allUserFavoritesObjects = await UserFavorite.findAll({
-      attributes: [
-        "favorite",
-      ],
-      where: {
-        "user_id": req.params.id,
-      },
-    })
-    const allUserFavoritesArray = allUserFavoritesObjects.map(favorite => favorite.favorite)    
-    res.status(200).json(allUserFavoritesArray)
+    // Return all user’s favorites.
+    const allUserFavorites = await getAllUserFavorites(req.params.id)
+    res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
   }
@@ -77,26 +97,17 @@ router.get("/:id/favorites", async (req, res) => {
 // Declare POST /api/users/:id/favorites (add a user’s favorites)
 router.post("/:id/favorites", async (req, res) => {
   try {
-    // 
-    const newUserFavoritesObjects = []
-    req.body.forEach((favorite) => {
-      newUserFavoritesObjects.push({
-        user_id: req.params.id,
-        favorite: favorite,
-      })
-    })
-    await UserFavorite.bulkCreate(newUserFavoritesObjects)
-    // ** if possible, move this outside the route and make it available to all the favorites routes.
-    const allUserFavoritesObjects = await UserFavorite.findAll({
-      attributes: [
-        "favorite",
-      ],
-      where: {
+    // Add new user’s favorites.
+    const newUserFavorites = req.body.map((favorite) => {
+      return {
         "user_id": req.params.id,
-      },
+        "favorite": favorite,
+      }
     })
-    const allUserFavoritesArray = allUserFavoritesObjects.map(favorite => favorite.favorite)    
-    res.status(200).json(allUserFavoritesArray)
+    await UserFavorite.bulkCreate(newUserFavorites)
+    // Return all user’s favorites.
+    const allUserFavorites = await getAllUserFavorites(req.params.id)
+    res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
   }
@@ -105,23 +116,16 @@ router.post("/:id/favorites", async (req, res) => {
 // Declare DELELTE /api/users/:id/favorites (delete a user’s favorites)
 router.delete("/:id/favorites", async (req, res) => {
   try {
+    // Delete a user’s favorites.
     await UserFavorite.destroy({
       where: {
         "user_id": req.params.id,
         "favorite": { [Op.in]: req.body },
       },
     })
-    // ** if possible, move this outside the route and make it available to all the favorites routes.
-    const allUserFavoritesObjects = await UserFavorite.findAll({
-      attributes: [
-        "favorite",
-      ],
-      where: {
-        "user_id": req.params.id,
-      },
-    })
-    const allUserFavoritesArray = allUserFavoritesObjects.map(favorite => favorite.favorite)    
-    res.status(200).json(allUserFavoritesArray)
+    // Return all user’s favorites.
+    const allUserFavorites = await getAllUserFavorites(req.params.id)
+    res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
   }
