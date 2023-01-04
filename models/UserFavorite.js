@@ -20,7 +20,11 @@ UserFavorite.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    favorite: {
+    favorite_city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    favorite_state: {
       type: DataTypes.STRING,
       allowNull: false,
     },
