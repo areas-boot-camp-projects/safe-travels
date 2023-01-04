@@ -6,6 +6,32 @@ const { Op } = require("sequelize")
 const { User, UserFavorite } = require("../../models")
 
 // Get a user’s details and return them as an object.
+async function getUserDetails(userId) {
+  try {
+    const user = await User.findOne({
+      attributes: [
+        "user_id",
+        "first_name",
+        "last_name",
+        "email",
+      ],
+      include: [{
+        model: UserFavorite,
+        as: "favorites",
+        attributes: ["favorite"],
+        required: false,
+        through: { attributes: [] }
+      }],
+      where: {
+        "user_id": userId,
+      },
+    })
+  } catch (err) {
+    throw err
+  }
+}
+
+// Get a user’s details and return them as an object.
 async function getUser(userId) {
   try {
     const user = await User.findOne({
