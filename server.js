@@ -1,3 +1,5 @@
+// Project requirements: https://courses.bootcampspot.com/courses/2188/assignments/38679?module_item_id=749071.
+
 // Import Express and Express Handlebars.
 const express = require("express")
 const handlebars = require("express-handlebars")
