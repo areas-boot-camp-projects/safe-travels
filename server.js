@@ -1,5 +1,6 @@
-// Import Express.
+// Import Express and Express Handlebars.
 const express = require("express")
+const handlebars = require("express-handlebars")
 
 // Import the routes.
 const routes = require('./controllers')
@@ -10,6 +11,11 @@ const sequelize = require("./config/connection")
 // Declare the app and port.
 const app = express()
 const PORT = process.env.PORT || 3030
+
+// Set up Handlebars and tell Express to use the its template engine.
+const hbs = handlebars.create()
+app.engine("handlebars", hbs.engine)
+app.set("view engine", "handlebars")
 
 // Declare the middleware.
 app.use(express.json())

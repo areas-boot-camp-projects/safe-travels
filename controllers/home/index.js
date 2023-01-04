@@ -4,8 +4,7 @@ const router = require("express").Router()
 // Define the GET / HTML route.
 router.get("/", async (req, res) => {
   try {
-    console.log("GET / request!")
-    res.status(200).json("Under Construction 🔨")
+    res.render("home")
   } catch (err) {
     res.status(500).json(err)
   }
