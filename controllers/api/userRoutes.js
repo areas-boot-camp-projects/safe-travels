@@ -110,6 +110,33 @@ router.post("/", async (req, res) => {
   }
 })
 
+// Declare POST /api/users/signin (sign in a user).
+router.post("/signin", async (req, res) => {
+  try {
+    // Search for the user by their email.
+    const user = await User.findOne({
+      where: {
+        email: req.body.email,
+      },
+    })
+    // If not found, return an error message.
+    if (!user) {
+      res.status(400).json({ message: "Can’t find a user with that email. Try again." })
+      return
+    }
+    // Verify the user’s password.
+    const validPassword = await user.verifyPassword(req.body.password)
+    // If the passwords don’t match, return an error message.
+    if (!validPassword) {
+      res.status(400).json({ message: "Password’s incorrect. Try again." })
+    }
+    // ** todo: Add logic to sign a user in.
+    
+  } catch (err) {
+    res.status(400).json(err)
+  }
+})
+
 // Declare GET /api/users/:id/favorites (get a user’s favorites)
 router.get("/:id/favorites", async (req, res) => {
   try {
@@ -166,8 +193,3 @@ router.delete("/:id/favorites", async (req, res) => {
 })
 
 module.exports = router
-
-// Questions/todos/nice-to-haves:
-// - For POST /api/users/, do we need to return the password?
-// - Investigate if it would be good to create docs using swagger-jsdoc (code-first approach), or swagger-codegen or openapi-generator (design-first approach). **
-// - Add if/else statements to catch other errors, such as 400 and 404 (not just 500).
