@@ -5,65 +5,42 @@ const { Sequelize, Op } = require("sequelize")
 // Import the User and UserFavorite models.
 const { User, UserFavorite } = require("../../models")
 
-// Get a user’s details and return them as an object.
-async function getUserDetails(userId) {
+// Get a user’s details and favorites, and return them as an object.
+async function getUserDetailsAndFavorites(userId) {
   try {
-    const user = await User.findOne({
+    // Query the database.
+    let user = await User.findOne({
       attributes: [
         "user_id",
         "first_name",
         "last_name",
         "email",
       ],
+      where: {
+        "user_id": userId,
+      },
       include: [{
         model: UserFavorite,
-        as: "favorites",
-        attributes: ["favorite"],
         required: false,
-        through: { attributes: [] }
+        attributes: [
+          "favorite_city",
+          "favorite_state",
+        ],
+        where: {
+          "user_id": userId,
+        },
       }],
-      where: {
-        "user_id": userId,
-      },
     })
-  } catch (err) {
-    throw err
-  }
-}
-
-// Get a user’s details and return them as an object.
-async function getUser(userId) {
-  try {
-    const user = await User.findOne({
-      attributes: [
-        "user_id",
-        "first_name",
-        "last_name",
-        "email",
-      ],
-      where: {
-        "user_id": userId,
-      },
-    })
+    // Convert the results to a plain JavaScript object.
+    user = user.toJSON()
+    // Rename UserFavorites to favorites.
+    user = {
+      ...user,
+      favorites: user.UserFavorites,
+      UserFavorites: undefined,
+    }
+    // Return the new object.
     return user
-  } catch (err) {
-    throw err
-  }
-}
-
-// Get a user’s favorites and return them as an array.
-async function getAllUserFavorites(userId) {
-  try {
-    const allUserFavorites = await UserFavorite.findAll({
-      attributes: [
-        "favorite_city",
-        "favorite_state",
-      ],
-      where: {
-        "user_id": userId,
-      },
-    })
-    return allUserFavorites
   } catch (err) {
     throw err
   }
@@ -90,7 +67,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     // Return the user’s details.
-    const user = await getUser(req.params.id)
+    const user = await getUserDetailsAndFavorites(req.params.id)
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
@@ -103,7 +80,7 @@ router.post("/", async (req, res) => {
     // Add a user.
     const newUser = await User.create(req.body)
     // Return the user’s details.
-    const user = await getUser(newUser.user_id)
+    const user = await getUserDetailsAndFavorites(newUser.user_id)
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
@@ -141,7 +118,7 @@ router.post("/signin", async (req, res) => {
 router.get("/:id/favorites", async (req, res) => {
   try {
     // Return all user’s favorites.
-    const allUserFavorites = await getAllUserFavorites(req.params.id)
+    const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
@@ -161,7 +138,7 @@ router.post("/:id/favorites", async (req, res) => {
     })
     await UserFavorite.bulkCreate(newUserFavorites)
     // Return all user’s favorites.
-    const allUserFavorites = await getAllUserFavorites(req.params.id)
+    const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
@@ -185,7 +162,7 @@ router.delete("/:id/favorites", async (req, res) => {
       }
     })
     // Return all user’s favorites.
-    const allUserFavorites = await getAllUserFavorites(req.params.id)
+    const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
