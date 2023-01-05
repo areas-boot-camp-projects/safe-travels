@@ -1,6 +1,6 @@
 // Import the Express router and Sequelize operators.
 const router = require("express").Router()
-const { Op } = require("sequelize")
+const { Sequelize, Op } = require("sequelize")
 
 // Import the User and UserFavorite models.
 const { User, UserFavorite } = require("../../models")
@@ -56,13 +56,14 @@ async function getAllUserFavorites(userId) {
   try {
     const allUserFavorites = await UserFavorite.findAll({
       attributes: [
-        "favorite",
+        "favorite_city",
+        "favorite_state",
       ],
       where: {
         "user_id": userId,
       },
     })
-    return allUserFavorites.map(favorite => favorite.favorite)
+    return allUserFavorites
   } catch (err) {
     throw err
   }
@@ -127,7 +128,8 @@ router.post("/:id/favorites", async (req, res) => {
     const newUserFavorites = req.body.map((favorite) => {
       return {
         "user_id": req.params.id,
-        "favorite": favorite,
+        "favorite_city": favorite.favorite_city,
+        "favorite_state": favorite.favorite_state,
       }
     })
     await UserFavorite.bulkCreate(newUserFavorites)
@@ -143,11 +145,17 @@ router.post("/:id/favorites", async (req, res) => {
 router.delete("/:id/favorites", async (req, res) => {
   try {
     // Delete a user’s favorites.
+    const deleteUserFavorites = req.body.map((favorite) => {
+      return {
+        "user_id": req.params.id,
+        "favorite_city": favorite.favorite_city,
+        "favorite_state": favorite.favorite_state,
+      }
+    })
     await UserFavorite.destroy({
       where: {
-        "user_id": req.params.id,
-        "favorite": { [Op.in]: req.body },
-      },
+        [Sequelize.Op.or]: deleteUserFavorites
+      }
     })
     // Return all user’s favorites.
     const allUserFavorites = await getAllUserFavorites(req.params.id)
