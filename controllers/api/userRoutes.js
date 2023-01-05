@@ -31,9 +31,9 @@ async function getUserDetailsAndFavorites(userId) {
         },
       }],
     })
-    // Convert the results to a plain JavaScript object.
+    // Convert the output to a plain JavaScript object.
     user = user.toJSON()
-    // Rename UserFavorites to favorites.
+    // Rename “UserFavorites” to “favorites”.
     user = {
       ...user,
       favorites: user.UserFavorites,
@@ -87,10 +87,10 @@ router.post("/", async (req, res) => {
   }
 })
 
-// Declare POST /api/users/signin (sign in a user).
-router.post("/signin", async (req, res) => {
+// Declare POST /api/users/login (log in a user).
+router.post("/login", async (req, res) => {
   try {
-    // Search for the user by their email.
+    // Search for the user by their email address.
     const user = await User.findOne({
       where: {
         email: req.body.email,
@@ -98,17 +98,19 @@ router.post("/signin", async (req, res) => {
     })
     // If not found, return an error message.
     if (!user) {
-      res.status(400).json({ message: "Can’t find a user with that email. Try again." })
+      res.status(400).json({ message: "Can’t find a user with that email address. Try again." })
       return
     }
-    // Verify the user’s password.
-    const validPassword = await user.verifyPassword(req.body.password)
+    // Validate the user’s password.
+    const validPassword = await user.validatePassword(req.body.password)
     // If the passwords don’t match, return an error message.
     if (!validPassword) {
       res.status(400).json({ message: "Password’s incorrect. Try again." })
     }
-    // ** todo: Add logic to sign a user in.
-    
+    // ** todo: Add logic to log in a user.
+    if (validPassword) {
+      res.status(200).json({ message: "Great, you made it this far!." })
+    }
   } catch (err) {
     res.status(400).json(err)
   }
