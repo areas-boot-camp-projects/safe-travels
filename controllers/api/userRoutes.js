@@ -63,10 +63,10 @@ router.get("/", async (req, res) => {
   }
 })
 
-// Declare GET /api/users/:id route (get a user).
+// Declare the GET /api/users/:id route (get a user).
 router.get("/:id", async (req, res) => {
   try {
-    // Return the user’s details.
+    // Return the user’s details and favorites.
     const user = await getUserDetailsAndFavorites(req.params.id)
     res.status(200).json(user)
   } catch (err) {
@@ -74,12 +74,12 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-// Declare POST /api/users (add a user).
+// Declare the POST /api/users route (add a user).
 router.post("/", async (req, res) => {
   try {
     // Add a user.
     const newUser = await User.create(req.body)
-    // Return the user’s details.
+    // Return the user’s details and favorites.
     const user = await getUserDetailsAndFavorites(newUser.user_id)
     res.status(200).json(user)
   } catch (err) {
@@ -87,7 +87,7 @@ router.post("/", async (req, res) => {
   }
 })
 
-// Declare POST /api/users/login (log in a user).
+// Declare the POST /api/users/login route (log in a user).
 router.post("/login", async (req, res) => {
   try {
     // Search for the user by their email address.
@@ -98,28 +98,28 @@ router.post("/login", async (req, res) => {
     })
     // If not found, return an error message.
     if (!user) {
-      res.status(400).json({ message: "Can’t find a user with that email address. Try again." })
+      res.status(401).send("Sorry, your email or password is incorrect. Try again.")
       return
     }
     // Validate the user’s password.
     const validPassword = await user.validatePassword(req.body.password)
     // If the passwords don’t match, return an error message.
     if (!validPassword) {
-      res.status(400).json({ message: "Password’s incorrect. Try again." })
+      res.status(401).send("Sorry, your email or password is incorrect. Try again.")
     }
     // ** todo: Add logic to log in a user.
     if (validPassword) {
-      res.status(200).json({ message: "Great, you made it this far!." })
+      res.status(200).send("Great, you made it this far!")
     }
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 })
 
-// Declare GET /api/users/:id/favorites (get a user’s favorites)
+// Declare the GET /api/users/:id/favorites routes (get a user’s favorites)
 router.get("/:id/favorites", async (req, res) => {
   try {
-    // Return all user’s favorites.
+    // Return the user’s details and favorites.
     const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
@@ -127,7 +127,7 @@ router.get("/:id/favorites", async (req, res) => {
   }
 })
 
-// Declare POST /api/users/:id/favorites (add a user’s favorites)
+// Declare the POST /api/users/:id/favorites routes (add a user’s favorites)
 router.post("/:id/favorites", async (req, res) => {
   try {
     // Add new user’s favorites.
@@ -139,7 +139,7 @@ router.post("/:id/favorites", async (req, res) => {
       }
     })
     await UserFavorite.bulkCreate(newUserFavorites)
-    // Return all user’s favorites.
+    /// Return the user’s details and favorites.
     const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
@@ -147,7 +147,7 @@ router.post("/:id/favorites", async (req, res) => {
   }
 })
 
-// Declare DELELTE /api/users/:id/favorites (delete a user’s favorites)
+// Declare the DELELTE /api/users/:id/favorites routes (delete a user’s favorites)
 router.delete("/:id/favorites", async (req, res) => {
   try {
     // Delete a user’s favorites.
@@ -163,7 +163,7 @@ router.delete("/:id/favorites", async (req, res) => {
         [Sequelize.Op.or]: deleteUserFavorites
       }
     })
-    // Return all user’s favorites.
+    // Return the user’s details and favorites.
     const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
