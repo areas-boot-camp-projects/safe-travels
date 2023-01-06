@@ -5,9 +5,9 @@ const express = require("express")
 const handlebars = require("express-handlebars")
 
 // Import the routes.
-const routes = require('./controllers')
+const routes = require("./controllers")
 
-// Import the database connection details.
+// // Import the database connection details.
 const sequelize = require("./config/connection")
 
 // Declare the app and port.
@@ -19,11 +19,11 @@ const hbs = handlebars.create()
 app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 
-// Declare the middleware.
+// // Declare the middleware.
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Use the routes.
+// // Use the routes.
 app.use(routes)
 
 // Connect to the database and listen at the specified port.
