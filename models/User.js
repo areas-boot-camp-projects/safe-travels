@@ -8,11 +8,7 @@ const sequelize = require("../config/connection")
 const bcrypt = require("bcrypt")
 
 // Extend the Model class and add a function to validate the user’s password.
-class User extends Model {
-  validatePassword(loginPassword) {
-    return bcrypt.compareSync(loginPassword, this.password)
-  }
-}
+class User extends Model {}
 
 // Define the User class.
 User.init(

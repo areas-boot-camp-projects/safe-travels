@@ -1,12 +1,17 @@
-// Import the Express router and Sequelize operators.
+// Import the Express router.
 const router = require("express").Router()
+
+// Import the Sequelize operators.
 const { Sequelize, Op } = require("sequelize")
 
 // Import the User and UserFavorite models.
 const { User, UserFavorite } = require("../../models")
 
+// Import bcrypt.
+const bcrypt = require("bcrypt")
+
 // Get a user’s details and favorites, and return them as an object.
-async function getUserDetailsAndFavorites(userId) {
+async function getUser(userId) {
   try {
     // Query the database.
     let user = await User.findOne({
@@ -49,14 +54,24 @@ async function getUserDetailsAndFavorites(userId) {
 // Declare the GET /api/users route (get all users).
 router.get("/", async (req, res) => {
   try {
-    const users = await User.findAll({
+    let users = await User.findAll({
       attributes: [
         "user_id",
         "first_name",
         "last_name",
         "email",
       ],
+      include: [{
+        model: UserFavorite,
+        required: false,
+        attributes: [
+          "favorite_city",
+          "favorite_state",
+        ],
+      }],
     })
+    // ** todo: Add code to convert users to an array of plain objects, and rename UserFavorites to favorites.
+    // Return the new object.
     res.status(200).json(users)
   } catch (err) {
     res.status(500).json(err)
@@ -67,7 +82,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     // Return the user’s details and favorites.
-    const user = await getUserDetailsAndFavorites(req.params.id)
+    const user = await getUser(req.params.id)
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
@@ -80,7 +95,7 @@ router.post("/", async (req, res) => {
     // Add a user.
     const newUser = await User.create(req.body)
     // Return the user’s details and favorites.
-    const user = await getUserDetailsAndFavorites(newUser.user_id)
+    const user = await getUser(newUser.user_id)
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
@@ -102,15 +117,17 @@ router.post("/login", async (req, res) => {
       return
     }
     // Validate the user’s password.
-    const validPassword = await user.validatePassword(req.body.password)
+    const validPassword = await bcrypt.compareSync(req.body.password, user.password)
     // If the passwords don’t match, return an error message.
     if (!validPassword) {
       res.status(401).send("Sorry, your email or password is incorrect. Try again.")
     }
+    
     // ** todo: Add logic to log in a user.
     if (validPassword) {
       res.status(200).send("Great, you made it this far!")
     }
+
   } catch (err) {
     res.status(500).json(err)
   }
@@ -120,7 +137,7 @@ router.post("/login", async (req, res) => {
 router.get("/:id/favorites", async (req, res) => {
   try {
     // Return the user’s details and favorites.
-    const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
+    const allUserFavorites = await getUser(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
@@ -140,7 +157,7 @@ router.post("/:id/favorites", async (req, res) => {
     })
     await UserFavorite.bulkCreate(newUserFavorites)
     /// Return the user’s details and favorites.
-    const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
+    const allUserFavorites = await getUser(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
@@ -164,7 +181,7 @@ router.delete("/:id/favorites", async (req, res) => {
       }
     })
     // Return the user’s details and favorites.
-    const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
+    const allUserFavorites = await getUser(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
