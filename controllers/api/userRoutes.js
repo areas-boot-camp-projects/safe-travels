@@ -50,35 +50,7 @@ async function getUser(userId) {
     throw err
   }
 }
-
-// Declare the GET /api/users route (get all users).
-router.get("/", async (req, res) => {
-  try {
-    let users = await User.findAll({
-      attributes: [
-        "user_id",
-        "first_name",
-        "last_name",
-        "email",
-      ],
-      include: [{
-        model: UserFavorite,
-        required: false,
-        attributes: [
-          "favorite_city",
-          "favorite_state",
-        ],
-      }],
-    })
-    // ** todo: Add code to convert users to an array of plain objects, and rename UserFavorites to favorites.
-    // Return the new object.
-    res.status(200).json(users)
-  } catch (err) {
-    res.status(500).json(err)
-  }
-})
-
-// Declare the GET /api/users/:id route (get a user).
+// Declare the GET /api/user/:id route (get a user).
 router.get("/:id", async (req, res) => {
   try {
     // Return the user’s details and favorites.
@@ -89,7 +61,7 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-// Declare the POST /api/users route (add a user).
+// Declare the POST /api/user route (add a user).
 router.post("/", async (req, res) => {
   try {
     // Add a user.
@@ -102,7 +74,7 @@ router.post("/", async (req, res) => {
   }
 })
 
-// Declare the POST /api/users/login route (log in a user).
+// Declare the POST /api/user/login route (log in a user).
 router.post("/login", async (req, res) => {
   try {
     // Search for the user by their email address.
@@ -133,7 +105,7 @@ router.post("/login", async (req, res) => {
   }
 })
 
-// Declare the GET /api/users/:id/favorites routes (get a user’s favorites)
+// Declare the GET /api/user/:id/favorites routes (get a user’s favorites)
 router.get("/:id/favorites", async (req, res) => {
   try {
     // Return the user’s details and favorites.
@@ -144,7 +116,7 @@ router.get("/:id/favorites", async (req, res) => {
   }
 })
 
-// Declare the POST /api/users/:id/favorites routes (add a user’s favorites)
+// Declare the POST /api/user/:id/favorites routes (add a user’s favorites)
 router.post("/:id/favorites", async (req, res) => {
   try {
     // Add new user’s favorites.
@@ -164,7 +136,7 @@ router.post("/:id/favorites", async (req, res) => {
   }
 })
 
-// Declare the DELELTE /api/users/:id/favorites routes (delete a user’s favorites)
+// Declare the DELELTE /api/user/:id/favorites routes (delete a user’s favorites)
 router.delete("/:id/favorites", async (req, res) => {
   try {
     // Delete a user’s favorites.

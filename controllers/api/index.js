@@ -7,6 +7,6 @@ const userRoutes = require("./userRoutes")
 
 // Use the API routes.
 router.use("/covid", covidRoutes)
-router.use("/users", userRoutes)
+router.use("/user", userRoutes)
 
 module.exports = router
