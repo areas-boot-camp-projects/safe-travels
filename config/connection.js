@@ -2,6 +2,7 @@
 const Sequelize = require("sequelize")
 require("dotenv").config()
 
+
 // Create a sequelize instance with the database connection details.
 if (process.env.JAWSDB_URL) {
   // Create an instance with Heroku’s JawsDB.

@@ -1,13 +1,18 @@
 // Import the Express router.
-const router = require("express").Router()
+const { Router } = require("express")
+ 
+// Import the HTML and API routes.
 
-// Define the GET / HTML route.
-router.get("/", async (req, res) => {
-  try {
+const pageRouter = new Router()
+
+pageRouter.get("/", (req, res)=>{
     res.render("home")
-  } catch (err) {
-    res.status(500).json(err)
-  }
 })
+// const apiRoutes = require("../api")
+// const homeRoutes = require(".")
 
-module.exports = router
+// Use the HTML and API routes.
+// router.use('/', homeRoutes);
+// router.use('/api', apiRoutes);
+
+module.exports = pageRouter;

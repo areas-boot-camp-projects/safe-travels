@@ -5,29 +5,34 @@ const express = require("express")
 const handlebars = require("express-handlebars")
 
 // Import the routes.
-const routes = require('./controllers')
+const routes = require('./controllers/home')
 
-// Import the database connection details.
-const sequelize = require("./config/connection")
+// // Import the database connection details.
+// const sequelize = require("./config/connection")
 
 // Declare the app and port.
 const app = express()
-const PORT = process.env.PORT || 3030
+// const PORT = process.env.PORT || 3030
 
 // Set up Handlebars and tell Express to use the its template engine.
 const hbs = handlebars.create()
 app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 
-// Declare the middleware.
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
 
-// Use the routes.
-app.use(routes)
+app.listen(3001, ()=>{
+  console.log("app is listening")
+})
+// // Declare the middleware.
+// app.use(express.json())
+// app.use(express.urlencoded({ extended: true }))
 
-// Connect to the database and listen at the specified port.
-sequelize.sync({ force: false })
-  .then(() => {
-    app.listen(PORT, () => console.log(`Listening at http://localhost:${PORT}! 🚀`))
-  })
+// // Use the routes.
+app.use('/', routes)
+
+// // Connect to the database and listen at the specified port.
+// // sequelize.sync({ force: false })
+// //   .then(() => {
+// //     app.listen(PORT, () => console.log(`Listening at http://localhost:${PORT}! 🚀`))
+// //   })
+
