@@ -1,5 +1,5 @@
 // Import the Express router.
-const router = require("express").Router()
+const covidRouter = require("express").Router()
 
 // Import the Axios library.
 const axios = require("axios")
@@ -8,7 +8,7 @@ const axios = require("axios")
 const baseUrl = "https://api.covid19api.com"
 
 // Declare the GET /api/covid/:country/:state route ().
-router.get("/:country/:state", async (req, res) => {
+covidRouter.get("/:country/:state", async (req, res) => {
   try {
     // Declare the region and date parameters.
     const country = req.params.country
@@ -33,4 +33,4 @@ router.get("/:country/:state", async (req, res) => {
   }
 })
 
-module.exports = router
+module.exports = covidRouter

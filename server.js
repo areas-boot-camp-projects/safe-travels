@@ -1,8 +1,9 @@
 // Project requirements: https://courses.bootcampspot.com/courses/2188/assignments/38679?module_item_id=749071.
 
-// Import Express and Express Handlebars.
+// Import Express, Express Handlebars, and Cookie Parser.
 const express = require("express")
 const handlebars = require("express-handlebars")
+const cookieParser = require("cookie-parser")
 
 // Import the routes.
 const routes = require("./controllers")
@@ -22,6 +23,7 @@ app.set("view engine", "handlebars")
 // // Declare the middleware.
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 // // Use the routes.
 app.use(routes)
