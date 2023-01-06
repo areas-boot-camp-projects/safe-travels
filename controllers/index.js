@@ -1,12 +1,12 @@
 // Import the Express router.
-const router = require("express").Router()
+const mainRouter = require("express").Router()
 
 // Import the HTML and API routes.
 const apiRoutes = require("./api")
-const homeRoutes = require("./home")
+const htmlRoutes = require("./html")
 
 // Use the HTML and API routes.
-router.use('/', homeRoutes);
-router.use('/api', apiRoutes);
+mainRouter.use('/', htmlRoutes);
+mainRouter.use('/api', apiRoutes);
 
-module.exports = router
+module.exports = mainRouter

@@ -30,6 +30,17 @@ UserFavorite.init(
     },
   },
   {
+    indexes: [
+      {
+        unique: true,
+        fields: [
+          "user_id",
+          "favorite_city",
+          "favorite_state",
+        ],
+        name: "unique_user_favorite",
+      }
+    ],
     sequelize,
     timestamps: false,
     freezeTableName: true,

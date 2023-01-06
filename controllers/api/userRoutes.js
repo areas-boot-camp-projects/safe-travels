@@ -1,12 +1,18 @@
-// Import the Express router and Sequelize operators.
-const router = require("express").Router()
+// Import the Express router.
+const userRouter = require("express").Router()
+
+// Import the Sequelize operators.
 const { Sequelize, Op } = require("sequelize")
 
 // Import the User and UserFavorite models.
 const { User, UserFavorite } = require("../../models")
 
-// Get a user’s details and favorites, and return them as an object.
-async function getUserDetailsAndFavorites(userId) {
+// Import bcrypt and JWT.
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+
+// Get a user’s details and favorites and return them as an object.
+async function getUser(userId) {
   try {
     // Query the database.
     let user = await User.findOne({
@@ -45,50 +51,32 @@ async function getUserDetailsAndFavorites(userId) {
     throw err
   }
 }
-
-// Declare the GET /api/users route (get all users).
-router.get("/", async (req, res) => {
-  try {
-    const users = await User.findAll({
-      attributes: [
-        "user_id",
-        "first_name",
-        "last_name",
-        "email",
-      ],
-    })
-    res.status(200).json(users)
-  } catch (err) {
-    res.status(500).json(err)
-  }
-})
-
-// Declare the GET /api/users/:id route (get a user).
-router.get("/:id", async (req, res) => {
+// Declare the GET /api/user/:id route (get a user).
+userRouter.get("/:id", async (req, res) => {
   try {
     // Return the user’s details and favorites.
-    const user = await getUserDetailsAndFavorites(req.params.id)
+    const user = await getUser(req.params.id)
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
   }
 })
 
-// Declare the POST /api/users route (add a user).
-router.post("/", async (req, res) => {
+// Declare the POST /api/user route (add a user).
+userRouter.post("/", async (req, res) => {
   try {
     // Add a user.
     const newUser = await User.create(req.body)
     // Return the user’s details and favorites.
-    const user = await getUserDetailsAndFavorites(newUser.user_id)
+    const user = await getUser(newUser.user_id)
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
   }
 })
 
-// Declare the POST /api/users/login route (log in a user).
-router.post("/login", async (req, res) => {
+// Declare the POST /api/user/login route (log in a user).
+userRouter.post("/login", async (req, res) => {
   try {
     // Search for the user by their email address.
     const user = await User.findOne({
@@ -96,39 +84,46 @@ router.post("/login", async (req, res) => {
         email: req.body.email,
       },
     })
-    // If not found, return an error message.
+    // If there’s no match, return an error message.
     if (!user) {
       res.status(401).send("Sorry, your email or password is incorrect. Try again.")
       return
     }
     // Validate the user’s password.
-    const validPassword = await user.validatePassword(req.body.password)
-    // If the passwords don’t match, return an error message.
+    const validPassword = await bcrypt.compareSync(req.body.password, user.password)
+    // If there’s no match, return an error message. Else, create a token.
     if (!validPassword) {
       res.status(401).send("Sorry, your email or password is incorrect. Try again.")
-    }
-    // ** todo: Add logic to log in a user.
-    if (validPassword) {
-      res.status(200).send("Great, you made it this far!")
+      return
+    } else if (validPassword) {
+      // Create a token with the user’s ID.
+      let token = {
+        user_id: user.user_id,
+      }
+      // Sign the token and set it to expire in 8 hours.
+      token = jwt.sign(token, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 8 })
+      // Create a cookie and set it to expire in 8 hours.
+      res.cookie("jwt_session", token, { maxAge: 60 * 60 * 8 * 1000 })
+      res.status(200).end()
     }
   } catch (err) {
     res.status(500).json(err)
   }
 })
 
-// Declare the GET /api/users/:id/favorites routes (get a user’s favorites)
-router.get("/:id/favorites", async (req, res) => {
+// Declare the GET /api/user/:id/favorites routes (get a user’s favorites)
+userRouter.get("/:id/favorites", async (req, res) => {
   try {
     // Return the user’s details and favorites.
-    const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
+    const allUserFavorites = await getUser(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
   }
 })
 
-// Declare the POST /api/users/:id/favorites routes (add a user’s favorites)
-router.post("/:id/favorites", async (req, res) => {
+// Declare the POST /api/user/:id/favorites routes (add a user’s favorites)
+userRouter.post("/:id/favorites", async (req, res) => {
   try {
     // Add new user’s favorites.
     const newUserFavorites = req.body.map((favorite) => {
@@ -140,15 +135,15 @@ router.post("/:id/favorites", async (req, res) => {
     })
     await UserFavorite.bulkCreate(newUserFavorites)
     /// Return the user’s details and favorites.
-    const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
+    const allUserFavorites = await getUser(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
   }
 })
 
-// Declare the DELELTE /api/users/:id/favorites routes (delete a user’s favorites)
-router.delete("/:id/favorites", async (req, res) => {
+// Declare the DELELTE /api/user/:id/favorites routes (delete a user’s favorites)
+userRouter.delete("/:id/favorites", async (req, res) => {
   try {
     // Delete a user’s favorites.
     const deleteUserFavorites = req.body.map((favorite) => {
@@ -164,11 +159,11 @@ router.delete("/:id/favorites", async (req, res) => {
       }
     })
     // Return the user’s details and favorites.
-    const allUserFavorites = await getUserDetailsAndFavorites(req.params.id)
+    const allUserFavorites = await getUser(req.params.id)
     res.status(200).json(allUserFavorites)
   } catch (err) {
     res.status(500).json(err)
   }
 })
 
-module.exports = router
+module.exports = userRouter
