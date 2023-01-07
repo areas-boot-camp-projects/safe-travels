@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/areas-boot-camp-projects/safe-travels.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Safety First",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/areas-boot-camp-projects/safe-travels/issues"
   },

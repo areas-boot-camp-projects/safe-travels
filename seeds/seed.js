@@ -13,12 +13,12 @@ async function seedDatabase() {
   // Sync the data model with the database table (and drop the table if it already exists).
   await sequelize.sync({ force: true })
   // Seed the User table with the userData.json file.
-  const users = await User.bulkCreate(userData, {
+  await User.bulkCreate(userData, {
     individualHooks: true,
     returning: true,
   })
   // Seed the UserFavorite table with the userFavoriteData.json file.
-  const userFavorites = await UserFavorite.bulkCreate(userFavoriteData, {
+  await UserFavorite.bulkCreate(userFavoriteData, {
     individualHooks: true,
     returning: true,
   })

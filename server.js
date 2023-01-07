@@ -8,8 +8,9 @@ const cookieParser = require("cookie-parser")
 // Import the routes.
 const routes = require("./controllers")
 
-// // Import the database connection details.
+// // Import the database connection details and City model.
 const sequelize = require("./config/connection")
+const { City } = require("./models")
 
 // Declare the app and port.
 const app = express()
@@ -32,4 +33,16 @@ app.use(routes)
 sequelize.sync({ force: false })
   .then(() => {
     app.listen(PORT, () => console.log(`Listening at http://localhost:${PORT}! 🚀`))
+    // Check whether the City table is empty.
+    return City.count()
+  })
+  .then(count => {
+    // If the City table is empty, seed it with the cityData.json file.
+    if (count === 0) {
+      const cityData = require("./seeds/cityData.json")
+      City.bulkCreate(cityData, {
+        individualHooks: true,
+        returning: true,
+      })
+    }
   })

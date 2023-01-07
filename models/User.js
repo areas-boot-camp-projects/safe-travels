@@ -7,7 +7,7 @@ const sequelize = require("../config/connection")
 // Import bcrypt.
 const bcrypt = require("bcrypt")
 
-// Extend the Model class and add a function to validate the user’s password.
+// Extend the Model class.
 class User extends Model {}
 
 // Define the User class.
