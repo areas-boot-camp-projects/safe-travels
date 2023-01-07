@@ -75,8 +75,8 @@ userRouter.post("/", async (req, res) => {
   }
 })
 
-// Declare the POST /api/user/login route (log in a user).
-userRouter.post("/login", async (req, res) => {
+// Declare the POST /api/user/sign-in route (sign in a user).
+userRouter.post("/sign-in", async (req, res) => {
   try {
     // Search for the user by their email address.
     const user = await User.findOne({

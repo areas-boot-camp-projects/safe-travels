@@ -525,10 +525,6 @@ video {
   flex-direction: row;
 }
 
-.flex-col {
-  flex-direction: column;
-}
-
 .content-center {
   align-content: center;
 }
@@ -557,17 +553,12 @@ video {
   background-color: rgb(185 28 28 / var(--tw-bg-opacity));
 }
 
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+.text-6xl {
+  font-size: 3.75rem;
+  line-height: 1;
 }
 
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
-}
-
-.text-6xl {
-  font-size: 3.75rem;
-  line-height: 1;
 }
