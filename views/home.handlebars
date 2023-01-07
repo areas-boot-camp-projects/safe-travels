@@ -11,9 +11,11 @@
   </form>
 </div>
 
-<div class="flex flex-row justify-center">
+<div class="flex flex-col justify-center">
   <h2 class="text-2xl">Results</h2>
-  {{covidData}}
+  <div id="covid-data">
+    {{{covidData}}}
+  </div>
 </div>
 
 {{!-- commenting this out for now, since we won’t be able to calculate risk level by the time the project is due

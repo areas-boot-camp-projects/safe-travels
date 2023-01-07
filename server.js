@@ -3,6 +3,7 @@
 // Import Express, Express Handlebars, and Cookie Parser.
 const express = require("express")
 const handlebars = require("express-handlebars")
+const path = require("path")
 const cookieParser = require("cookie-parser")
 
 // Import the routes.
@@ -24,6 +25,7 @@ app.set("view engine", "handlebars")
 // // Declare the middleware.
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(express.static(path.join(__dirname, "public")))
 app.use(cookieParser())
 
 // // Use the routes.
