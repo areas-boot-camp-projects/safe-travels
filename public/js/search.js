@@ -1,7 +1,7 @@
 // Get city COVID data.
 async function getCityCovidData(e) {
   e.preventDefault()
-  // Display while searching.
+  // Display while “Searching...” searching.
   document.getElementById("city-covid-data").innerHTML = `<p class="searching">Searching...</p>`
   // Get the city and state from the user.
   const city = document.getElementById("city").value

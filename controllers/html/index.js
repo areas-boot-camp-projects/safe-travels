@@ -9,6 +9,11 @@ pageRouter.get("/", (req, res) => {
   res.render("home")
 })
 
+// Declare the GET / route (get the home page).
+pageRouter.get("/sign-in", (req, res) => {
+  res.render("sign-in")
+})
+
 // Declare the GET /profile route (get the profile page).
 pageRouter.get("/profile", async (req, res) => {
   try {
