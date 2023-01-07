@@ -4,7 +4,7 @@
   "description": "A simple app that communicates that risk level of traveling to a state or city/county.",
   "main": "index.js",
   "scripts": {
-    "tailwind": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "tailwind": "npx tailwindcss -i ./src/input.css -o ./public/css/output.css --watch",
     "nodemon": "nodemon server.js"
   },
   "repository": {

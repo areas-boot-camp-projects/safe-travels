@@ -1,21 +1,33 @@
+<div class="flex justify-center bg-blue-400">
+  <h1 class="text-6xl content-center">Safe Travels</h1>
+</div>
+
 <div class="flex justify-center">
-    <h1 class="bg-blue-400 text-4xl content-center">Safe Travels</h1>
-   </div>
- 
-
-
-<div  class="flex flex-row justify-center">
-  <h2 class="text-2xl">Enter Your Region </h2><br>
-  <input type="text">
-
+  <h2 class="text-2xl">Search By Region</h2>
 </div>
 
-
-    <h3 class="flex flex-row justify-center text-2xl">Risk Level</h3>
- 
-    <div class="flex flex-row justify-center">
-       <div class="basis-1/4 bg-green-700">Low</div>
-     <div class="basis-1/4 bg-yellow-400">Medium</div>
-      <div class="basis-1/4 bg-red-700">High</div>
-
+<div class="flex justify-center">
+  <form id="search-form">
+    <input type="text" placeholder="City or County" id="city">
+    <input type="text" placeholder="State" id="state">
+    <button type="submit">Search</button>
+  </form>
 </div>
+
+<div class="flex justify-center">
+  <h2 id="results" class="text-2xl"></h2>
+</div>
+
+<div class="flex justify-center">
+  <div id="city-covid-data"></div>
+</div>
+
+{{!-- commenting this out for now, since we won’t be able to calculate risk level by the time the project is due
+<h3 class="flex flex-row justify-center text-2xl">Risk Level</h3>
+
+<div class="flex flex-row justify-center">
+  <div class="basis-1/4 bg-green-700">Low</div>
+  <div class="basis-1/4 bg-yellow-400">Medium</div>
+  <div class="basis-1/4 bg-red-700">High</div>
+</div>
+--}}

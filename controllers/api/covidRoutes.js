@@ -23,6 +23,16 @@ covidRouter.get("/:country/:state/:city", async (req, res) => {
     let covidData
     if (req.params.city) {
       covidData = result.data.filter(covidData => covidData.City === city)
+      // Create a single object with the important values.
+      covidData = {
+        city: covidData[0].City,
+        state: covidData[0].Province,
+        country: covidData[0].CountryCode,
+        confirmed: covidData[0].Confirmed,
+        active: covidData[0].Active,
+        recovered: covidData[0].Recovered,
+        deaths: covidData[0].Deaths,
+      }
     }
     else {
       covidData = result.data
