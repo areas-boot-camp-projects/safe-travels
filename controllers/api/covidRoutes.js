@@ -7,20 +7,17 @@ const axios = require("axios")
 // Declare the COVID-19 API base URL.
 const baseUrl = "https://api.covid19api.com"
 
-// Declare the GET /api/covid/:country/:state/:city/:type route (get cases per city).
-covidRouter.get("/:country/:state/:city/:type", async (req, res) => {
+// Declare the GET /api/covid/:country/:state/:city route (get cases per city).
+covidRouter.get("/:country/:state/:city", async (req, res) => {
   try {
     // Declare the region and date parameters.
-    console.log(req.params)
     const country = req.params.country
     const state = req.params.state
     const city = req.params.city
-    const type = req.params.type
     const from = `${req.query.date}T00:00:00Z`
     const to = `${req.query.date}T23:59:59Z`
     // Declare the COVID 19 API request URL and call it (see also: /country/:country/status/:status).
-    const requestUrl = `${baseUrl}/country/${country}/status/${type}?province=${state}&from=${from}&to=${to}`
-    console.log(requestUrl) // **
+    const requestUrl = `${baseUrl}/country/${country}?province=${state}&from=${from}&to=${to}`
     const result = await axios.get(requestUrl)
     // Return the city’s, or all cities’, COVID data.
     let covidData

@@ -1,6 +1,7 @@
-// Import the User and UserFavorite class.
+// Import the User, UserFavorite, and City class.
 const User = require("./User")
 const UserFavorite = require("./UserFavorite")
+const City = require("./City")
 
 User.hasMany(UserFavorite, {
   foreignKey: 'user_id',
@@ -11,4 +12,4 @@ UserFavorite.belongsTo(User, {
   foreignKey: 'user_id'
 });
 
-module.exports = { User, UserFavorite }
+module.exports = { User, UserFavorite, City }
