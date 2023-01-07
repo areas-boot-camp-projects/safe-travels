@@ -1,9 +1,12 @@
-<div class="flex justify-center">
-  <h1 class="bg-blue-400 text-4xl content-center">Safe Travels</h1>
+<div class="flex justify-center bg-blue-400">
+  <h1 class="text-6xl content-center">Safe Travels</h1>
 </div>
 
-<div class="flex flex-row justify-center">
+<div class="flex justify-center">
   <h2 class="text-2xl">Search By Region</h2>
+</div>
+
+<div class="flex justify-center">
   <form id="search-form">
     <input type="text" placeholder="City or County" id="city">
     <input type="text" placeholder="State" id="state">
@@ -11,11 +14,12 @@
   </form>
 </div>
 
-<div class="flex flex-col justify-center">
-  <h2 class="text-2xl">Results</h2>
-  <div id="covid-data">
-    {{{covidData}}}
-  </div>
+<div class="flex justify-center">
+  <h2 id="results" class="text-2xl"></h2>
+</div>
+
+<div class="flex justify-center">
+  <div id="city-covid-data"></div>
 </div>
 
 {{!-- commenting this out for now, since we won’t be able to calculate risk level by the time the project is due
