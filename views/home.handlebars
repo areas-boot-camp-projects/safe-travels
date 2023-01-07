@@ -3,7 +3,7 @@
 </div>
 
 <div class="flex flex-row justify-center">
-  <h2 class="text-2xl">Enter Your Region</h2>
+  <h2 class="text-2xl">Search By Region</h2>
   <form id="search-form">
     <input type="text" placeholder="City or County" id="city">
     <input type="text" placeholder="State" id="state">
@@ -11,6 +11,12 @@
   </form>
 </div>
 
+<div class="flex flex-row justify-center">
+  <h2 class="text-2xl">Results</h2>
+  {{covidData}}
+</div>
+
+{{!-- commenting this out for now, since we won’t be able to calculate risk level by the time the project is due
 <h3 class="flex flex-row justify-center text-2xl">Risk Level</h3>
 
 <div class="flex flex-row justify-center">
@@ -18,3 +24,4 @@
   <div class="basis-1/4 bg-yellow-400">Medium</div>
   <div class="basis-1/4 bg-red-700">High</div>
 </div>
+--}}
