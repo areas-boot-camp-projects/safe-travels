@@ -2,12 +2,11 @@
 const sequelize = require("../config/connection")
 
 // Import the models.
-const { User, UserFavorite, City } = require("../models")
+const { User, UserFavorite } = require("../models")
 
 // Import the seed data.
 const userData = require("./userData.json")
 const userFavoriteData = require("./userFavoriteData.json")
-const cityData = require("./cityData.json")
 
 // Use the seed data to seed the database.
 async function seedDatabase() {
@@ -20,11 +19,6 @@ async function seedDatabase() {
   })
   // Seed the UserFavorite table with the userFavoriteData.json file.
   await UserFavorite.bulkCreate(userFavoriteData, {
-    individualHooks: true,
-    returning: true,
-  })
-  // Seed the Cityt table with the cityData.json file.
-  await City.bulkCreate(cityData, {
     individualHooks: true,
     returning: true,
   })
