@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken")
 // Get a user’s token from their cookie.
 function getToken(cookie) {
   let token
-  if (cookie.startsWith("jwt_session=")) {
+  if (cookie && cookie.startsWith("jwt_session=")) {
     token = cookie.replace("jwt_session=", "")
   }
   return token
