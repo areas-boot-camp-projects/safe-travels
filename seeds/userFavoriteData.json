@@ -1,22 +1,22 @@
 [
   {
     "user_id": 1,
-    "favorite_city": "Berkeley",
+    "favorite_city": "Alameda",
     "favorite_state": "California"
   },
   {
     "user_id": 1,
-    "favorite_city": "Cupertino",
-    "favorite_state": "California"
-  },
-  {
-    "user_id": 1,
-    "favorite_city": "Oakland",
+    "favorite_city": "Marin",
     "favorite_state": "California"
   },
   {
     "user_id": 1,
     "favorite_city": "San Francisco",
+    "favorite_state": "California"
+  },
+  {
+    "user_id": 1,
+    "favorite_city": "Santa Clara",
     "favorite_state": "California"
   }
 ]

@@ -1,3 +1,17 @@
+{{#if user}}
+  <div class="flex justify-center">
+    <h2 id="favorites" class="text-2xl">Your Favorites</h2>
+  </div>
+
+  <div class="flex justify-center">
+    <ul>
+      {{#each user.favorites}}
+        <li>{{favorite_city}}, {{favorite_state}}</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
+
 <div class="flex justify-center">
   <h2 class="text-2xl">Search By Region</h2>
 </div>
