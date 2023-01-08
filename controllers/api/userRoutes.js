@@ -1,55 +1,27 @@
-// Import the Express router.
+// Import the Express router and Sequelize operators.
 const userRouter = require("express").Router()
-
-// Import the Sequelize operators.
 const { Sequelize, Op } = require("sequelize")
 
 // Import the User and UserFavorite models.
-const { User, UserFavorite } = require("../../models")
+const { User } = require("../../models")
 
 // Import bcrypt and JWT.
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
-// Get a user’s details and favorites and return them as an object. ** todo: move this out so it’s available to other files.
-async function getUser(userId) {
-  try {
-    // Query the database.
-    let user = await User.findOne({
-      attributes: [
-        "user_id",
-        "first_name",
-        "last_name",
-        "email",
-      ],
-      where: {
-        "user_id": userId,
-      },
-      include: [{
-        model: UserFavorite,
-        required: false,
-        attributes: [
-          "favorite_city",
-          "favorite_state",
-        ],
-        where: {
-          "user_id": userId,
-        },
-      }],
-    })
-    // Convert the output to a plain JavaScript object.
-    user = user.toJSON()
-    // Rename “UserFavorites” to “favorites”.
-    user = {
-      ...user,
-      favorites: user.UserFavorites,
-    }
-    delete user.UserFavorites
-    // Return the new object.
-    return user
-  } catch (err) {
-    throw err
+// Import the getUser() util function.
+const getUser = require("../../utils/getUser")
+
+// Create a token and cookie.
+function createTokenAndCookie(userId, res) {
+  // Create a token with the user’s ID.
+  let token = {
+    user_id: userId,
   }
+  // Sign the token and set it to expire in 8 hours.
+  token = jwt.sign(token, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 8 })
+  // Create a cookie and set it to expire in 8 hours.
+  res.cookie("jwt_session", token, { maxAge: 60 * 60 * 8 * 1000 })
 }
 
 // Declare the GET /api/user/:id route (get a user).
@@ -70,14 +42,8 @@ userRouter.post("/", async (req, res) => {
     const newUser = await User.create(req.body)
     // Return the user’s details and favorites.
     const user = await getUser(newUser.user_id)
-    // Create a token with the user’s ID. ** todo: refactor to only write this code once.
-    let token = {
-      user_id: user.user_id,
-    }
-    // Sign the token and set it to expire in 8 hours.
-    token = jwt.sign(token, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 8 })
-    // Create a cookie and set it to expire in 8 hours.
-    res.cookie("jwt_session", token, { maxAge: 60 * 60 * 8 * 1000 })
+    // Create a token and cookie.
+    createTokenAndCookie(user.user_id, res)
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
@@ -105,14 +71,8 @@ userRouter.post("/sign-in", async (req, res) => {
       res.status(401).send("Sorry, your email or password is incorrect. Try again.")
       return
     } else if (validPassword) {
-      // Create a token with the user’s ID. ** todo: refactor to only write this code once.
-      let token = {
-        user_id: user.user_id,
-      }
-      // Sign the token and set it to expire in 8 hours.
-      token = jwt.sign(token, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 8 })
-      // Create a cookie and set it to expire in 8 hours.
-      res.cookie("jwt_session", token, { maxAge: 60 * 60 * 8 * 1000 })
+      // Create a token and cookie.
+      createTokenAndCookie(user.user_id, res)
       res.status(200).end()
     }
   } catch (err) {
@@ -124,61 +84,6 @@ userRouter.post("/sign-in", async (req, res) => {
 userRouter.post("'/sign-out", function(req, res) {
   res.clearCookie("jwt_session", "", { expires: new Date(0) })
   res.redirect("/")
-})
-
-// Declare the GET /api/user/:id/favorites routes (get a user’s favorites)
-userRouter.get("/:id/favorites", async (req, res) => {
-  try {
-    // Return the user’s details and favorites.
-    const allUserFavorites = await getUser(req.params.id)
-    res.status(200).json(allUserFavorites)
-  } catch (err) {
-    res.status(500).json(err)
-  }
-})
-
-// Declare the POST /api/user/:id/favorites routes (add a user’s favorites)
-userRouter.post("/:id/favorites", async (req, res) => {
-  try {
-    // Add new user’s favorites.
-    const newUserFavorites = req.body.map((favorite) => {
-      return {
-        "user_id": req.params.id,
-        "favorite_city": favorite.favorite_city,
-        "favorite_state": favorite.favorite_state,
-      }
-    })
-    await UserFavorite.bulkCreate(newUserFavorites)
-    /// Return the user’s details and favorites.
-    const allUserFavorites = await getUser(req.params.id)
-    res.status(200).json(allUserFavorites)
-  } catch (err) {
-    res.status(500).json(err)
-  }
-})
-
-// Declare the DELELTE /api/user/:id/favorites routes (delete a user’s favorites)
-userRouter.delete("/:id/favorites", async (req, res) => {
-  try {
-    // Delete a user’s favorites.
-    const deleteUserFavorites = req.body.map((favorite) => {
-      return {
-        "user_id": req.params.id,
-        "favorite_city": favorite.favorite_city,
-        "favorite_state": favorite.favorite_state,
-      }
-    })
-    await UserFavorite.destroy({
-      where: {
-        [Sequelize.Op.or]: deleteUserFavorites
-      }
-    })
-    // Return the user’s details and favorites.
-    const allUserFavorites = await getUser(req.params.id)
-    res.status(200).json(allUserFavorites)
-  } catch (err) {
-    res.status(500).json(err)
-  }
 })
 
 module.exports = userRouter

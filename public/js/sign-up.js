@@ -11,13 +11,13 @@ async function signUp(e) {
     // Call the API.
     const response = await fetch("/api/user", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         "first_name": firstName,
         "last_name": lastName,
         email,
         password,
       }),
-      headers: { "Content-Type": "application/json" },
     })
     // If successful, redirect to home page. Else, display alert with error message.
     if (response.ok) {

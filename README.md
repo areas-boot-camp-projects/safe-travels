@@ -1,6 +1,6 @@
 # Safe Travels
 ## Description
-A simple app that communicates the risk level of traveling to a state or city/county.
+A simple app that displays recent COVID stats of a city or county.
 
 <!-- if appropriate, add a screenshot ![image-alt](image-url) -->
 
@@ -19,9 +19,9 @@ A simple app that communicates the risk level of traveling to a state or city/co
 
 
 ## Features
-- User enters region (state or city/county) and gets the risk level for that region.
-- Risk is communicated in simple terms (low, medium, and high risk), but users can drill down to see stats (infections, hospitalizations, and deaths).
-- Users can sign up for an account and favorite regions.
+- Users search for COVID data (confirmed, active, and recovered cases, and deaths) by region in the United States (city/county and state).
+- As the user types, the available city/county and state is suggested with autocomplete.
+- Users can sign up and favorite regions for future searches.
 
 
 ## Installation
@@ -42,19 +42,18 @@ TBD
 
 ## Credits
 Team Members:
+- Christian
 - Eliu
 - Mariama
-- Mark
-- Christian
 
 Technology:
 - Tailwind CSS
 - Handlebars.js
+- Algolia Autocomplete
 - Node.js
 - Express.js
 - MySQL
-- JWT (maybe)
-- Stripe for donations 😈 (*extra credit*)
+- JWT
 
 
 ## License

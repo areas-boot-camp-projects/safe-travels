@@ -19,12 +19,5 @@
     "last_name": "Bah",
     "email": "mariama@email.com",
     "password": "password"
-  },
-  {
-    "user_id": 4,
-    "first_name": "Mark",
-    "last_name": "Pedro",
-    "email": "mark@email.com",
-    "password": "password"
   }
 ]
