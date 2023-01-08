@@ -1,6 +1,16 @@
-<div class="flex justify-center bg-blue-400">
-  <h1 class="text-6xl content-center">Safe Travels</h1>
-</div>
+{{#if user}}
+  <div class="flex justify-center">
+    <h2 id="favorites" class="text-2xl">Your Favorites</h2>
+  </div>
+
+  <div class="flex justify-center">
+    <ul>
+      {{#each user.favorites}}
+        <li>{{favorite_city}}, {{favorite_state}}</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
 
 <div class="flex justify-center">
   <h2 class="text-2xl">Search By Region</h2>
@@ -8,8 +18,8 @@
 
 <div class="flex justify-center">
   <form id="search-form">
-    <input type="text" placeholder="City or County" id="city">
-    <input type="text" placeholder="State" id="state">
+    <input type="text" autocomplete="off" placeholder="City or County" id="city">
+    <input type="text" autocomplete="off" placeholder="State" id="state">
     <button type="submit">Search</button>
   </form>
 </div>
@@ -22,7 +32,9 @@
   <div id="city-covid-data"></div>
 </div>
 
-{{!-- commenting this out for now, since we won’t be able to calculate risk level by the time the project is due
+<script src="js/search.js"></script>
+
+{{!-- commenting this out for now, since we won’t be able to calculate risk level by the time the project is due.
 <h3 class="flex flex-row justify-center text-2xl">Risk Level</h3>
 
 <div class="flex flex-row justify-center">

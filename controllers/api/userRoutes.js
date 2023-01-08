@@ -11,7 +11,7 @@ const { User, UserFavorite } = require("../../models")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
-// Get a user’s details and favorites and return them as an object.
+// Get a user’s details and favorites and return them as an object. ** todo: move this out so it’s available to other files.
 async function getUser(userId) {
   try {
     // Query the database.
@@ -43,14 +43,15 @@ async function getUser(userId) {
     user = {
       ...user,
       favorites: user.UserFavorites,
-      UserFavorites: undefined,
     }
+    delete user.UserFavorites
     // Return the new object.
     return user
   } catch (err) {
     throw err
   }
 }
+
 // Declare the GET /api/user/:id route (get a user).
 userRouter.get("/:id", async (req, res) => {
   try {
@@ -69,14 +70,22 @@ userRouter.post("/", async (req, res) => {
     const newUser = await User.create(req.body)
     // Return the user’s details and favorites.
     const user = await getUser(newUser.user_id)
+    // Create a token with the user’s ID. ** todo: refactor to only write this code once.
+    let token = {
+      user_id: user.user_id,
+    }
+    // Sign the token and set it to expire in 8 hours.
+    token = jwt.sign(token, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 8 })
+    // Create a cookie and set it to expire in 8 hours.
+    res.cookie("jwt_session", token, { maxAge: 60 * 60 * 8 * 1000 })
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
   }
 })
 
-// Declare the POST /api/user/login route (log in a user).
-userRouter.post("/login", async (req, res) => {
+// Declare the POST /api/user/sign-in route (sign in a user).
+userRouter.post("/sign-in", async (req, res) => {
   try {
     // Search for the user by their email address.
     const user = await User.findOne({
@@ -96,7 +105,7 @@ userRouter.post("/login", async (req, res) => {
       res.status(401).send("Sorry, your email or password is incorrect. Try again.")
       return
     } else if (validPassword) {
-      // Create a token with the user’s ID.
+      // Create a token with the user’s ID. ** todo: refactor to only write this code once.
       let token = {
         user_id: user.user_id,
       }
@@ -109,6 +118,12 @@ userRouter.post("/login", async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
+})
+
+// Declare the POST /api/user/sign-out route (sign out a user).
+userRouter.post("'/sign-out", function(req, res) {
+  res.clearCookie("jwt_session", "", { expires: new Date(0) })
+  res.redirect("/")
 })
 
 // Declare the GET /api/user/:id/favorites routes (get a user’s favorites)

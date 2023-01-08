@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Safe Travels</title>
-        <link rel="stylesheet" href="/css/output.css">
-    </head>
-    <body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Travels</title>
+    <link rel="stylesheet" href="/css/output.css">
+  </head>
+  <body>
 
-        {{{ body }}}
+    <div class="bg-blue-400 text-white text-right">
+      {{#if token}}
+        <p>Welcome, {{user.first_name}}! (<a id="sign-out" class="underline" href="#">Sign Out</a>)</p>
+      {{else}}
+        <a id="sign-in" class="underline" href="/sign-in">Sign In</a> or <a id="sign-uo" class="underline" href="/sign-up">Sign Up</a>
+      {{/if}}
+    </div>
 
-    <script src="js/search.js"></script>
-    </body>
+    <div class="flex justify-center bg-blue-400">
+      <h1 class="text-6xl content-center"><a href="/">Safe Travels</a></h1>
+    </div>
+
+    {{{ body }}}
+
+  {{#if token}}
+    <script src="js/sign-out.js"></script>    
+  {{/if}}
+  </body>
 </html>
