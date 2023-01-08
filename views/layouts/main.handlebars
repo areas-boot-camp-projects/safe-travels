@@ -8,11 +8,22 @@
     </head>
     <body>
 
+        <div class="bg-blue-400 text-white text-right">
+            {{#if token}}
+                <a id="sign-out" href="#">Sign Out</a>
+            {{else}}
+                <a id="sign-in" href="/sign-in">Sign In</a> or <a id="sign-uo" href="/sign-up">Sign Up</a>
+            {{/if}}
+        </div>
+
         <div class="flex justify-center bg-blue-400">
-            <h1 class="text-6xl content-center">Safe Travels</h1>
+            <h1 class="text-6xl content-center"><a href="/">Safe Travels</a></h1>
         </div>
 
         {{{ body }}}
 
+    {{#if token}}
+        <script src="js/sign-out.js"></script>        
+    {{/if}}
     </body>
 </html>

@@ -65,11 +65,18 @@ userRouter.get("/:id", async (req, res) => {
 // Declare the POST /api/user route (add a user).
 userRouter.post("/", async (req, res) => {
   try {
-    console.log(req.body) // **
     // Add a user.
     const newUser = await User.create(req.body)
     // Return the user’s details and favorites.
     const user = await getUser(newUser.user_id)
+    // Create a token with the user’s ID.
+    let token = {
+      user_id: user.user_id,
+    }
+    // Sign the token and set it to expire in 8 hours.
+    token = jwt.sign(token, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 8 })
+    // Create a cookie and set it to expire in 8 hours.
+    res.cookie("jwt_session", token, { maxAge: 60 * 60 * 8 * 1000 })
     res.status(200).json(user)
   } catch (err) {
     res.status(500).json(err)
@@ -110,6 +117,12 @@ userRouter.post("/sign-in", async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
+})
+
+// Declare the POST /api/user/sign-out route (sign out a user).
+userRouter.post("'/sign-out", function(req, res) {
+  res.clearCookie("jwt_session", "", { expires: new Date(0) })
+  res.redirect("/")
 })
 
 // Declare the GET /api/user/:id/favorites routes (get a user’s favorites)
