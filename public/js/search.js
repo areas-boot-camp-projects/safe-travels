@@ -4,8 +4,8 @@ async function getCityCovidData(e) {
   // Display while “Searching...” searching.
   document.getElementById("city-covid-data").innerHTML = `<p class="searching">Searching...</p>`
   // Get the city and state from the user.
-  const city = document.getElementById("city").value
-  const state = document.getElementById("state").value
+  const searchCity = document.getElementById("search-city").value
+  const searchState = document.getElementById("search-state").value
   // Get today’s date.
   const now = Date.now()
   const today = new Date(now)
@@ -14,17 +14,17 @@ async function getCityCovidData(e) {
   yesteryesterday.setDate(today.getDate() - 2)
   yesteryesterday = yesteryesterday.toISOString().slice(0, 10)
   // If the user entered a city and state, call the getCityCovidData API and display the results.
-  if (city && state) {
+  if (searchCity && searchState) {
     // Call the API.
-    const requestUrl = `/api/covid/united-states/${state}/${city}?date=${yesteryesterday}`
+    const requestUrl = `/api/covid/united-states/${searchState}/${searchCity}?date=${yesteryesterday}`
     let covidData = await fetch(requestUrl, {
         method: "GET",
         headers: { 'Content-Type': 'application/json' },
     })
     covidData = await covidData.json()
     // Clear the city and state fields.
-    document.getElementById("city").value = ""
-    document.getElementById("state").value = ""
+    document.getElementById("search-city").value = ""
+    document.getElementById("search-state").value = ""
     // Display the results.
     document.getElementById("results").innerHTML = "Results"
     document.getElementById("city-covid-data").innerHTML = `
