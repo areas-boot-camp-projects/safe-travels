@@ -9,11 +9,11 @@ async function signIn(e) {
     // Call the API.
     const response = await fetch("/api/user/sign-in", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email,
         password,
       }),
-      headers: { "Content-Type": "application/json" },
     })
     // If successful, redirect to home page. Else, display alert with error message.
     if (response.ok) {
