@@ -40,8 +40,8 @@ async function signUp(e) {
     const response = await fetch("/api/user", {
       method: "POST",
       body: JSON.stringify({
-        firstName: "first_name",
-        lastName: "last_name",
+        "first_name": firstName,
+        "last_name": lastName,
         email,
         password,
       }),

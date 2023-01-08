@@ -65,6 +65,7 @@ userRouter.get("/:id", async (req, res) => {
 // Declare the POST /api/user route (add a user).
 userRouter.post("/", async (req, res) => {
   try {
+    console.log(req.body) // **
     // Add a user.
     const newUser = await User.create(req.body)
     // Return the user’s details and favorites.
