@@ -76,6 +76,14 @@ hr {
   /* 3 */
 }
 
+body{
+  background-image: url("https://www.fsmb.org/siteassets/advocacy/covid-map-768-512.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 /*
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
