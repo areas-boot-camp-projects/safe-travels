@@ -4,7 +4,7 @@
   </div>
 
   <div class="flex justify-center">
-    <ul>
+    <ul class="bg-white opacity-80 px-5 py-3 rounded-lg">
       {{#each user.favorites}}
         <li class="flex">
           <button class="favorite text-blue-500">
@@ -43,6 +43,7 @@
   <div id="city-covid-data"></div>
 </div>
 
-<div id="autocomplete"></div>
+{{!-- workaournd to get these classes in the final css file. --}}
+<div class="hidden text-green-500 px-5 py-1 py-3 rounded-t-lg rounded-b-lg border-b-2"></div>
 
 <script src="js/search-and-favorites.js"></script>

@@ -73,7 +73,7 @@ async function searchForCovidDataByCity(e) {
     // Display the results.
     document.getElementById("results").innerHTML = "Results"
     document.getElementById("city-covid-data").innerHTML = `
-      <h3 class="result-item">
+      <h3 class="result-item bg-white opacity-80 px-5 py-3 rounded-t-lg border-b-2">
         <span id="city-state"></span>
         <button class="add-favorite text-green-500">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-green-500">
@@ -81,7 +81,7 @@ async function searchForCovidDataByCity(e) {
           </svg>    
         </button>
       </h3>
-      <ul>
+      <ul class="bg-white opacity-80 px-5 py-3 rounded-b-lg">
         <li id="confirmed" class="result-item"></li>
         <li id="active" class="result-item"></li>
         <li id="recovered" class="result-item"></li>
