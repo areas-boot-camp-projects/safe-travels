@@ -6,7 +6,17 @@
   <div class="flex justify-center">
     <ul>
       {{#each user.favorites}}
-        <li>{{favorite_city}}, {{favorite_state}}</li>
+        <li class="flex">
+          <button class="favorite text-blue-500">
+            <span class="favorite-city">{{favorite_city}}</span>,
+            <span class="favorite-state">{{favorite_state}}</span>
+          </button>
+          <button class="delete-favorite text-red-500">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.75 9.25a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </li>
       {{/each}}
     </ul>
   </div>
@@ -18,9 +28,11 @@
 
 <div class="flex justify-center">
   <form id="search-form">
+
     <input class="Region" type="text" autocomplete="off" placeholder="City or County" id="city">
     <input class="Region" type="text" autocomplete="off" placeholder="State" id="state">
     <button class="submit" type="submit">Search</button>
+
   </form>
 </div>
 
@@ -32,14 +44,4 @@
   <div id="city-covid-data"></div>
 </div>
 
-<script src="js/search.js"></script>
-
-{{!-- commenting this out for now, since we won’t be able to calculate risk level by the time the project is due.
-<h3 class="flex flex-row justify-center text-2xl">Risk Level</h3>
-
-<div class="flex flex-row justify-center">
-  <div class="basis-1/4 bg-green-700">Low</div>
-  <div class="basis-1/4 bg-yellow-400">Medium</div>
-  <div class="basis-1/4 bg-red-700">High</div>
-</div>
---}}
+<script src="js/search-and-favorites.js"></script>
