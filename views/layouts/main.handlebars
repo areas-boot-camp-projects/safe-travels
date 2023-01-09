@@ -8,16 +8,19 @@
   </head>
   <body>
 
-    <div class="bg-blue-400 text-white text-right">
+    <div class="text-white text-right" style="background-color:skyblue">
       {{#if token}}
         <p>Welcome, {{user.first_name}}! (<a id="sign-out" class="underline" href="#">Sign Out</a>)</p>
         <p id="user-id" class="hidden">{{user.user_id}}</p>
       {{else}}
-        <a id="sign-in" class="underline" href="/sign-in">Sign In</a> or <a id="sign-out" class="underline" href="/sign-up">Sign Up</a>
+
+        <a id="sign-in" class="underline" href="/sign-in">Sign In</a> or 
+        <a id="sign-uo" class="underline" href="/sign-up">Sign Up</a>
+
       {{/if}}
     </div>
 
-    <div class="flex justify-center bg-blue-400">
+    <div class="flex justify-center" style="background-color:skyblue">
       <h1 class="text-6xl content-center"><a href="/">Safe Travels</a></h1>
     </div>
 
