@@ -98,9 +98,11 @@ async function deleteUserFavorite() {
   addOrDeleteUserFavorite("delete", buttonParent)
 }
 
-// If the delete-favorite button is displayed, add a listener to it.
-if (document.querySelector(".delete-favorite")) {
-  document.querySelector(".delete-favorite").addEventListener("click", deleteUserFavorite)
+// If there’s a delete-favorite button, add a listener to it.
+if (document.querySelectorAll(".delete-favorite")) {
+  document.querySelectorAll(".delete-favorite").forEach(button => {
+    button.addEventListener("click", deleteUserFavorite)
+  })
 }
 
 // Add a user favorite to search.
