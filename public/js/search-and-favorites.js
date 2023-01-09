@@ -1,3 +1,7 @@
+
+
+//////////////////////////////////////////////////
+
 // Search for COVID data by city.
 async function searchForCovidDataByCity(e) {
   e.preventDefault()
@@ -66,7 +70,7 @@ async function addOrDeleteUserFavorite(addOrDelete, buttonParent) {
   let method
   if (addOrDelete === "add") { method = "POST" }
   else if (addOrDelete === "delete") { method = "DELETE" }
-  // Get user's ID.
+  // Get user"s ID.
   const userId = document.getElementById("user-id").innerText
   // Get the city and state.
   const favoriteCity = buttonParent.querySelector(".favorite-city").innerText
@@ -94,13 +98,16 @@ async function addUserFavorite() {
 // Delete a user favorite.
 async function deleteUserFavorite() {
   // Get the button’s parent element.
+  console.log("Click!")
   const buttonParent = this.parentNode
   addOrDeleteUserFavorite("delete", buttonParent)
 }
 
-// If the delete-favorite button is displayed, add a listener to it.
-if (document.querySelector(".delete-favorite")) {
-  document.querySelector(".delete-favorite").addEventListener("click", deleteUserFavorite)
+// If there’s a delete-favorite button, add a listener to it.
+if (document.querySelectorAll(".delete-favorite")) {
+  document.querySelectorAll(".delete-favorite").forEach(button => {
+    button.addEventListener("click", deleteUserFavorite)
+  })
 }
 
 // Add a user favorite to search.
