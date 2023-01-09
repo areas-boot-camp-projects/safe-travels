@@ -1,7 +1,3 @@
-
-
-//////////////////////////////////////////////////
-
 // Search for COVID data by city.
 async function searchForCovidDataByCity(e) {
   e.preventDefault()
