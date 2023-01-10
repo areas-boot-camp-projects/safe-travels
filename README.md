@@ -4,6 +4,17 @@ A simple app that displays recent COVID stats of a city or county.
 
 <!-- if appropriate, add a screenshot ![image-alt](image-url) -->
 
+![Homepage](/Screenshots/Safe%20Travels%201.png)
+![DropdownOptions](/Screenshots/Safe%20Travels%202.png)
+![Results](/Screenshots/Safe%20Travels%203.png)
+![SignupPage](/Screenshots/Safe%20Travels%204.png)
+![Loggedin](/Screenshots/Safe%20Travels%20%205.png)
+![SignIn](/Screenshots//Safe%20Travels%206.png)
+
+
+Deployed Heroku Site: https://safe-travels.herokuapp.com/
+
+
 ![GNU GPLv3 License Badge](https://img.shields.io/github/license/areas-boot-camp-projects/safe-travels)
 
 
