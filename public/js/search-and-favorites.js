@@ -52,15 +52,15 @@ async function searchForCovidDataByCity(e) {
   const now = Date.now()
   const today = new Date(now)
   // Get yesteryesterday’s date (workaround, until we can convert user’s time to UTC).
-  let yesteryesterday = new Date(today)
-  yesteryesterday.setDate(today.getDate() - 2)
-  yesteryesterday = yesteryesterday.toISOString().slice(0, 10)
+  let yesteryesteryesterday = new Date(today)
+  yesteryesteryesterday.setDate(today.getDate() - 3)
+  yesteryesteryesterday = yesteryesteryesterday.toISOString().slice(0, 10)
   // If the user entered a city and state, call the getCityCovidData API and display the results.
   if (searchCity && searchState) {
     // Display while “Searching...” searching.
     document.getElementById("city-covid-data").innerHTML = `<p class="searching">Searching...</p>`
     // Call the API.
-    const requestUrl = `/api/covid/united-states/${searchState}/${searchCity}?date=${yesteryesterday}`
+    const requestUrl = `/api/covid/united-states/${searchState}/${searchCity}?date=${yesteryesteryesterday}`
     let covidData = await fetch(requestUrl, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
