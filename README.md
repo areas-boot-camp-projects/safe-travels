@@ -46,6 +46,7 @@ Technology:
 - Express.js
 - MySQL
 - JWT
+- Heroku
 
 
 ## License
