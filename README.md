@@ -2,11 +2,11 @@
 ## Description
 A simple app that displays a city or county’s recent COVID stats.
 
-![Safe Travels Home Page](./screenshots/Safe%20Travels%201.png)
-![Safe Travels Autocomplete Suggestions](./screenshots/Safe%20Travels%202.png)
-![Safe Travels Search Results](./screenshots/Safe%20Travels%203.png)
-![Safe Travels Sign Up Page](./screenshots/Safe%20Travels%204.png)
-![Safe Travels Sign In Page](./screenshots/Safe%20Travels%206.png)
+![Safe Travels Home Page](./assets/safe-travels-1.png)
+![Safe Travels Autocomplete Suggestions](./assets/safe-travels-2.png)
+![Safe Travels Search Results](./assets/safe-travels-3.png)
+![Safe Travels Sign Up Page](./assets/safe-travels-4.png)
+![Safe Travels Sign In Page](./assets/safe-travels-6.png)
 
 To see it live, see [Safe Travels](https://safe-travels.herokuapp.com/).
 
@@ -16,7 +16,6 @@ To see it live, see [Safe Travels](https://safe-travels.herokuapp.com/).
 ## Table of Contents
 - [Features](#features)
 - [Contribute](#contribute)
-- [Tests](#tests)
 - [Credits](#credits)
 - [License](#license)
 - [Questions](#questions)
