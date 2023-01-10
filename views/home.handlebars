@@ -4,7 +4,7 @@
   </div>
 
   <div class="flex justify-center">
-    <ul>
+    <ul class="bg-white opacity-80 px-5 py-3 rounded-lg">
       {{#each user.favorites}}
         <li class="flex">
           <button class="favorite text-blue-500">
@@ -27,10 +27,11 @@
 </div>
 
 <div class="flex justify-center">
-  <form id="search-form">
-    <input type="text" autocomplete="off" placeholder="City or County" id="search-city">
-    <input type="text" autocomplete="off" placeholder="State" id="search-state">
-    <button type="submit">Search</button>
+  <form autocomplete="off" id="search-form">
+    <input class="region" type="text" placeholder="City or County" id="search-city">
+    <ul id="search-suggestions" class="bg-white opacity-80"></ul>
+    <input class="region" type="text" placeholder="State" id="search-state">
+    <button class="submit" type="submit">Search</button>
   </form>
 </div>
 
@@ -41,5 +42,8 @@
 <div class="flex justify-center">
   <div id="city-covid-data"></div>
 </div>
+
+{{!-- workaournd to get these classes in the final css file. --}}
+<div class="hidden text-green-500 px-5 py-1 py-3 rounded-t-lg rounded-b-lg border-b-2"></div>
 
 <script src="js/search-and-favorites.js"></script>

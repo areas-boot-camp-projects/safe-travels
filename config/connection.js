@@ -1,8 +1,8 @@
-// Import sequelize and dotenv.
+// Import Sequelize and set up dotenv.
 const Sequelize = require("sequelize")
 require("dotenv").config()
 
-// Create a sequelize instance with the database connection details.
+// Create a Sequelize instance with the database connection details.
 if (process.env.JAWSDB_URL) {
   // Create an instance with Heroku’s JawsDB.
   sequelize = new Sequelize(process.env.JAWSDB_URL)
@@ -19,7 +19,7 @@ if (process.env.JAWSDB_URL) {
   )
 }
 
-// Test the database connection.
+// Connect to the database.
 sequelize
   .authenticate()
   .then(() => {
